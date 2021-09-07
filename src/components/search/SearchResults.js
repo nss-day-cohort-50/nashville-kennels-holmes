@@ -37,8 +37,9 @@ export default () => {
             return (
                 <React.Fragment>
                     <h2>Matching Locations</h2>
-                    <section className="locations">
-                        Display matching locations
+                    <section className="locations"> {
+                    location.state.locations.map(item => <Location location={item} key={item.id} />)
+                    }
                     </section>
                 </React.Fragment>
             )
