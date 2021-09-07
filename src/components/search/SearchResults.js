@@ -44,16 +44,12 @@ export default () => {
             return (
                 <React.Fragment>
                     <h2>Matching Locations</h2>
-<<<<<<< HEAD
-                    <section className="locations"> {
-                    location.state.locations.map(item => <Location location={item} key={item.id} />)
-                    }
-=======
+
                     <section className="locations">
                         {
                             location.state.locations.map(item => <Location location={item} key={item.id} />)
                         }
->>>>>>> 6f55980bb70d775284eb149a35d9981361eda2f4
+
                     </section>
                 </React.Fragment>
             )

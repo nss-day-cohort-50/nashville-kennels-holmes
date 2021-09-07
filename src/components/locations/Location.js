@@ -4,7 +4,7 @@ import locationImage from "./location.png"
 import "./Location.css"
 
 
-export default ({location}) => {
+export default ({ location }) => {
     return (
         <article className="card location" style={{ width: `18rem` }}>
             <section className="card-body">
