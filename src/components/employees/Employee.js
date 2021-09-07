@@ -5,6 +5,9 @@ import useResourceResolver from "../../hooks/resource/useResourceResolver";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import person from "./person.png"
 import "./Employee.css"
+import AnimalRepository from "../../repositories/AnimalRepository";
+
+
 
 
 export default ({ employee }) => {
@@ -14,6 +17,11 @@ export default ({ employee }) => {
     const { employeeId } = useParams()
     const { getCurrentUser } = useSimpleAuth()
     const { resolveResource, resource } = useResourceResolver()
+    
+    
+
+   
+ 
 
     useEffect(() => {
         if (employeeId) {
@@ -23,11 +31,12 @@ export default ({ employee }) => {
     }, [])
 
     useEffect(() => {
+        
         if (resource?.employeeLocations?.length > 0) {
             markLocation(resource.employeeLocations[0])
         }
     }, [resource])
-
+    
     return (
         <article className={classes}>
             <section className="card-body">
@@ -50,10 +59,10 @@ export default ({ employee }) => {
                     employeeId
                         ? <>
                             <section>
-                                Caring for 0 animals
+                                Caring for {resource?.animals?.length} animals
                             </section>
                             <section>
-                                Working at unknown location
+                                Working at {resource?.locations?.length} location
                             </section>
                         </>
                         : ""
