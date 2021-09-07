@@ -9,7 +9,9 @@ export default () => {
 
     useEffect(
         () => {
-            EmployeeRepository.getAll()
+            EmployeeRepository.getAll().then(data => {
+                setEmployees(data)
+            })
         }, []
     )
 
