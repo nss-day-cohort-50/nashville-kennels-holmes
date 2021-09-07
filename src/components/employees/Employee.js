@@ -59,8 +59,11 @@ export default ({ employee }) => {
                         : ""
                 }
 
-                {
-                    <button className="btn--fireEmployee" onClick={() => {}}>Fire</button>
+{
+                    getCurrentUser().employee
+                        ? <button className="btn--fireEmployee"
+                        onClick={() => EmployeeRepository.delete(employee.id)}>Fire</button>
+                        : ""
                 }
 
             </section>
