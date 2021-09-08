@@ -34,13 +34,15 @@ export const NavBar = () => {
                     return AnimalRepository.searchByName(encodeURI(terms))
                 })
                 .then(animals => {
-                    foundItems.animals = animals
-                    setTerms("")
-                    history.push({
-                        pathname: "/search",
-                        state: foundItems
+                        if (getCurrentUser().employee === true) {
+                        foundItems.animals = animals
+                    }
+                        setTerms("")
+                        history.push({
+                            pathname: "/search",
+                            state: foundItems
+                        })
                     })
-                })
         }
         else {
             setTerms(e.target.value)
