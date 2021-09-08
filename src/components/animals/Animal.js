@@ -9,6 +9,7 @@ import "./AnimalCard.css"
 import { fetchIt } from "../../repositories/Fetch"
 
 
+
 export const Animal = ({ animal, syncAnimals,
     showTreatmentHistory, owners }) => {
     const [detailsOpen, setDetailsOpen] = useState(false)
