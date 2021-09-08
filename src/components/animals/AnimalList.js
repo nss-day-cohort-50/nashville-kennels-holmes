@@ -36,6 +36,14 @@ export const AnimalListComponent = (props) => {
         toggleDialog()
     }
 
+    const foundAnimal = animalOwners.map(
+        (owner) => {
+            if (owner.userId === getCurrentUser().id) {
+                return owner.animalId
+            }
+        }
+    )
+
     useEffect(() => {
         const handler = e => {
             if (e.keyCode === 27 && modalIsOpen) {
@@ -48,6 +56,7 @@ export const AnimalListComponent = (props) => {
         return () => window.removeEventListener("keyup", handler)
     }, [toggleDialog, modalIsOpen])
 
+    console.log(getCurrentUser())
 
     return (
         <>
@@ -69,14 +78,34 @@ export const AnimalListComponent = (props) => {
 
             <ul className="animals">
                 {
-                    animals.map(anml =>
-                        <Animal key={`animal--${anml.id}`} animal={anml}
-                            animalOwners={animalOwners}
-                            owners={owners}
-                            syncAnimals={syncAnimals}
-                            setAnimalOwners={setAnimalOwners}
-                            showTreatmentHistory={showTreatmentHistory}
-                        />)
+                    getCurrentUser().employee
+                        ? animals.map(anml =>
+                            <Animal key={`animal--${anml.id}`} animal={anml}
+                                animalOwners={animalOwners}
+                                owners={owners}
+                                syncAnimals={syncAnimals}
+                                setAnimalOwners={setAnimalOwners}
+                                showTreatmentHistory={showTreatmentHistory}
+                            />)
+                        : animals.map((anml) => {
+                            return anml.animalOwners.map((owner) => {
+                                if (owner.userId === getCurrentUser().id) {
+                                    return(
+                                        <Animal key={`animal--${anml.id}`} animal={anml}
+                                animalOwners={animalOwners}
+                                owners={owners}
+                                syncAnimals={syncAnimals}
+                                setAnimalOwners={setAnimalOwners}
+                                showTreatmentHistory={showTreatmentHistory}
+                            />
+                                    )
+                                } else {
+                                    return ''
+                                }
+                            })
+                        })
+                                
+
                 }
             </ul>
         </>
