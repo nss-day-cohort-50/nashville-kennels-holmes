@@ -56,7 +56,7 @@ export const AnimalListComponent = (props) => {
         return () => window.removeEventListener("keyup", handler)
     }, [toggleDialog, modalIsOpen])
 
-    console.log(getCurrentUser())
+    
 
     return (
         <>

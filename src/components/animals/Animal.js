@@ -66,12 +66,11 @@ export const Animal = ({ animal, syncAnimals,
     }, [animalId])
 
     const foundCaretaker = caretakers.map(caretaker => {
-        if (caretaker.animalId === currentAnimal.id){
+        if (caretaker.animalId === currentAnimal.id) {
             return caretaker.user.name
         }
     })
-
-
+    console.log(currentAnimal)
     return (
         <>
             <li className={classes}>
@@ -104,19 +103,42 @@ export const Animal = ({ animal, syncAnimals,
                         <section>
                             <h6>Caretaker(s)</h6>
                             <span className="small">
-                                {
-                                    foundCaretaker
+                                {foundCaretaker}
+                                {isEmployee
+                                    ? <select defaultValue=""
+                                        name="caretaker"
+                                        className="form-control small"
+                                        onChange={(event)=>{
+                                            const copyState = [...caretakers]
+                                            copyState.map((caretaker) => {
+                                                if (caretaker.animalId === currentAnimal.id){
+                                                    currentAnimal.animalCaretakers.user = event.target.value
+                                                    setCaretakers(copyState)
+                                                }
+
+                                            })
+                                        }} 
+                                        >
+                                        <option value="">
+                                            Select caretaker
+                                   </option>
+                                        {
+                                            caretakers.map(caretaker => <option key={caretaker.id} value={caretaker.userId}>{caretaker.user.name}</option>)
+                                        }
+                                    </select>
+                                    : ''
                                 }
+
                             </span>
 
 
                             <h6>Owners</h6>
                             <span className="small">
                                 Owned by {myOwners.map(
-                                    (owner) => {
-                                        return owner.user.name
-                                    }
-                                )}
+                                (owner) => {
+                                    return owner.user.name
+                                }
+                            )}
 
                             </span>
 
