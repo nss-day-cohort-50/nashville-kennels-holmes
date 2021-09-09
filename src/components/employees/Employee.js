@@ -5,7 +5,6 @@ import useResourceResolver from "../../hooks/resource/useResourceResolver";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import person from "./person.png"
 import "./Employee.css"
-import AnimalRepository from "../../repositories/AnimalRepository";
 
 
 
@@ -23,19 +22,22 @@ export default ({ employee }) => {
    
  
 
-    useEffect(() => {
+    useEffect(() => { console.log(employee)
         if (employeeId) {
             defineClasses("card employee--single")
         }
         resolveResource(employee, employeeId, EmployeeRepository.get)
     }, [])
+    
+    
 
     useEffect(() => {
         
         if (resource?.employeeLocations?.length > 0) {
-            markLocation(resource.employeeLocations[0])
+            markLocation(resource.location)
         }
     }, [resource])
+    
     
     return (
         <article className={classes}>
@@ -54,19 +56,20 @@ export default ({ employee }) => {
                             </Link>
 
                     }
+
                 </h5>
-                {
-                    employeeId
-                        ? <>
-                            <section>
-                                Caring for {resource?.animals?.length} animals
-                            </section>
-                            <section>
-                                Working at {resource?.locations?.length} location
-                            </section>
-                        </>
-                        : ""
-                }
+                
+                    {resource
+                        ? `Currently kicking ${resource?.animals?.length} puppies` //currently not working//
+                        : `Caring for ${resource?.animals?.length} animals` //currently working//
+                    }
+                    
+                    {resource?.locations?.length > 0
+                        ? `Working at ${resource.locations[0].location.name}` //currently working//
+                        : `Working at ${resource?.location?.name}` //currently not working//
+                        }
+                    
+                
 
                 {
                     getCurrentUser().employee
