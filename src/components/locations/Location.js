@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import locationImage from "./location.png"
 import "./Location.css"
-import Employee from "../employees/Employee"
+
 
 
 

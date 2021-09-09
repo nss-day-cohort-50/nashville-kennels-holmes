@@ -6,10 +6,10 @@ import "./EmployeeList.css"
 
 export default () => {
     const [emps, setEmployees] = useState([])
-
+//This below was changed from get All to testLocation
     useEffect(
         () => {
-            EmployeeRepository.getAll().then(data => {
+            EmployeeRepository.testLocation().then(data => {
                 setEmployees(data)
             })
         }, []
@@ -19,9 +19,11 @@ export default () => {
         <>
             <div className="employees">
                 {
-                    emps.map(a => <Employee key={a.id} employee={a} />)
+                    emps.map(employee => <Employee key={employee.id} employee={employee} />)
                 }
             </div>
         </>
     )
 }
+
+
