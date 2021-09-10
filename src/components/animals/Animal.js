@@ -7,6 +7,7 @@ import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import useResourceResolver from "../../hooks/resource/useResourceResolver";
 import "./AnimalCard.css"
 import { fetchIt } from "../../repositories/Fetch"
+import { copyFileSync } from "fs";
 
 
 
@@ -22,15 +23,47 @@ export const Animal = ({ animal, syncAnimals,
     const { animalId } = useParams()
     const { resolveResource, resource: currentAnimal } = useResourceResolver()
     const [caretakers, setCaretakers] = useState([])
+    const [caretaker, updateCaretaker] = useState({})
 
-    useEffect(
-        () => {
-            fetchIt("http://localhost:8088/animalCaretakers?_expand=user")
-                .then((data) => {
-                    setCaretakers(data)
-                })
-        }, []
+
+
+    const getCaretakers = () => {
+        return fetch("http://localhost:8088/animalCaretakers?_expand=user")
+            .then(res => res.json())
+    }
+
+    useEffect(() => {
+        getCaretakers()
+        .then((data) => {
+            setCaretakers(data)
+        })
+    }, []
     )
+
+    const getCaretaker = (id) => {
+        return fetch(`http://localhost:8088/animalCaretakers/${id}`)
+        .then(res => res.json())
+    }
+
+
+
+    const setCaretaker = (id) => {
+        const fetchOptions = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+
+        return fetch(`http://localhost:8088/animalCaretakers/${id}`, fetchOptions)
+            .then(res => res.json())
+            .then((data) => {
+                updateCaretaker(data)
+            })
+    }
+
+
 
     useEffect(() => {
         setAuth(getCurrentUser().employee)
@@ -65,12 +98,15 @@ export const Animal = ({ animal, syncAnimals,
         }
     }, [animalId])
 
-    const foundCaretaker = caretakers.map(caretaker => {
+    const foundCaretaker = animal.animalCaretakers.map(caretaker => {
         if (caretaker.animalId === currentAnimal.id) {
             return caretaker.user.name
         }
     })
-    console.log(currentAnimal)
+
+    console.log("caretakers", animal.animalCaretakers)
+
+
     return (
         <>
             <li className={classes}>
@@ -108,15 +144,10 @@ export const Animal = ({ animal, syncAnimals,
                                     ? <select defaultValue=""
                                         name="caretaker"
                                         className="form-control small"
-                                        onChange={(event)=>{
-                                            const copyState = [...caretakers]
-                                            copyState.map((caretaker) => {
-                                                if (caretaker.animalId === currentAnimal.id){
-                                                    currentAnimal.animalCaretakers.user = event.target.value
-                                                    setCaretakers(copyState)
-                                                }
-
-                                            })
+                                        onChange={()=>{
+                                        //    const copyState = {...getCaretaker(event.target.value)}
+                                        //    copyState.animalId = currentAnimal.id
+                                        //    setCaretaker(copyState.Id)
                                         }} 
                                         >
                                         <option value="">
